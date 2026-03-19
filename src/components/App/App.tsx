@@ -698,7 +698,7 @@ export class App extends React.Component<AppProps, AppState> {
         ((document.visibilityState && document.visibilityState !== "visible") ||
           this.state.currentTab !== "chat")
       ) {
-        new Audio("/clearly.mp3").play();
+        new Audio("/message.mp3").play();
       }
       this.state.chat.push(data);
       if (this.state.chat.length > 100) {

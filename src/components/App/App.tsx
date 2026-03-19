@@ -2178,8 +2178,6 @@ export class App extends React.Component<AppProps, AppState> {
                         mediaPath={this.state.mediaPath}
                         disabled={!this.haveLock()}
                       />
-                    </div>
-                    <div className={styles.mobileStack}>
                       {this.localStreamToPublish && (
                         <Button
                           color="red"

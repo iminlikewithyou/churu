@@ -28,7 +28,7 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: |
           git config --global user.name "github-actions[bot]"	
-          git config --global user.email "watchparty+github-actions[bot]@users.noreply.github.com"	
+          git config --global user.email "churu+github-actions[bot]@users.noreply.github.com"	
           rm .gitignore	
           git checkout -b release
           git add --all

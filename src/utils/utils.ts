@@ -26,7 +26,9 @@ export function formatTimestamp(input: any, zeroTime?: number): string {
   let seconds = Math.abs(Math.trunc(Number(input) % 60))
     .toString()
     .padStart(2, "0");
-  return `${Number(input) < 0 ? "-" : ""}${hours ? `${hours}:` : ""}${minutes}:${seconds}`;
+  return `${Number(input) < 0 ? "-" : ""}${
+    hours ? `${hours}:` : ""
+  }${minutes}:${seconds}`;
 }
 
 export function formatSpeed(input: number) {
@@ -191,8 +193,8 @@ export const iceServers = () => [
   },
   // {
   //   urls: 'turn:numb.viagenie.ca',
-  //   credential: 'watchparty',
-  //   username: 'howardzchung@gmail.com',
+  //   credential: 'churu',
+  //   username: 'iilwy@omg.games',
   // },
 ];
 
@@ -291,23 +293,23 @@ export async function openFileSelector(accept?: string) {
 }
 
 export function getOrCreateClientId() {
-  let clientId = window.localStorage.getItem("watchparty-clientid");
+  let clientId = window.localStorage.getItem("churu-clientid");
   if (!clientId) {
     // Generate a new clientID and save it
     // This requires https, so fallback to JS implementation if needed
     clientId = createUuid();
-    window.localStorage.setItem("watchparty-clientid", clientId);
+    window.localStorage.setItem("churu-clientid", clientId);
   }
   return clientId;
 }
 
 export function getOrCreateSessionId() {
-  let sessionId = window.localStorage.getItem("watchparty-sessionid");
+  let sessionId = window.localStorage.getItem("churu-sessionid");
   if (!sessionId) {
     // Generate a new sessionID and save it
     // This requires https, so fallback to JS implementation if needed
     sessionId = createUuid();
-    window.localStorage.setItem("watchparty-sessionid", sessionId);
+    window.localStorage.setItem("churu-sessionid", sessionId);
   }
   return sessionId;
 }
@@ -317,16 +319,13 @@ export function addAndSavePassword(roomId: string, password: string) {
     ...getSavedPasswords(),
     [roomId]: password,
   };
-  window.localStorage.setItem(
-    "watchparty-passwords",
-    JSON.stringify(newPasswords),
-  );
+  window.localStorage.setItem("churu-passwords", JSON.stringify(newPasswords));
 }
 
 export function getSavedPasswords(): Record<string, string> {
   try {
     const savedPasswordsString =
-      window.localStorage.getItem("watchparty-passwords") ?? "{}";
+      window.localStorage.getItem("churu-passwords") ?? "{}";
     const savedPasswords = JSON.parse(savedPasswordsString);
     return savedPasswords;
   } catch (e) {

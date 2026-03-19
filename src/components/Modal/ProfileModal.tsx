@@ -46,7 +46,7 @@ export class ProfileModal extends React.Component<{
 
   onSignOut = () => {
     firebase.auth().signOut();
-    window.localStorage.removeItem("watchparty-loginname");
+    window.localStorage.removeItem("churu-loginname");
     window.location.reload();
   };
 

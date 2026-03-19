@@ -241,40 +241,6 @@ export const TopBar = (props: {
       >
         <a href="/" style={{ display: "flex" }}>
           <img style={{ width: "56px", height: "56px" }} src="/logo192.png" />
-          {/* <div
-              style={{
-                height: '48px',
-                width: '48px',
-                marginRight: '10px',
-                borderRadius: '50%',
-                position: 'relative',
-                backgroundColor: '#' + colorMappings.blue,
-              }}
-            >
-              <Icon
-                inverted
-                name="film"
-                size="large"
-                style={{
-                  position: 'absolute',
-                  top: 8,
-                  width: '100%',
-                  margin: '0 auto',
-                }}
-              />
-              <Icon
-                inverted
-                name="group"
-                size="large"
-                color="green"
-                style={{
-                  position: 'absolute',
-                  bottom: 8,
-                  width: '100%',
-                  margin: '0 auto',
-                }}
-              />
-            </div> */}
         </a>
         {props.roomTitle || props.roomDescription ? (
           <div
@@ -303,37 +269,19 @@ export const TopBar = (props: {
           </div>
         ) : (
           <React.Fragment>
-            <a href="/" style={{ display: "flex", textDecoration: "none" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    color: "#2185d0",
-                    fontSize: "30px",
-                    lineHeight: "30px",
-                  }}
-                >
-                  Watch
-                </div>
-                <div
-                  style={{
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    color: "#21ba45",
-                    fontSize: "30px",
-                    lineHeight: "30px",
-                    marginLeft: "auto",
-                  }}
-                >
-                  Party
-                </div>
-              </div>
+            <a
+              href="/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+              }}
+            >
+              <img
+                src="/wordmark28.png"
+                alt="churu"
+                style={{ height: "28px" }}
+              />
             </a>
           </React.Fragment>
         )}

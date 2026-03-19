@@ -77,7 +77,7 @@ declare global {
   interface Window {
     onYouTubeIframeAPIReady: any;
     YT: YT.JsApi;
-    watchparty: {
+    churu: {
       ourStream: MediaStream | undefined;
       videoRefs: HTMLVideoElementDict;
       videoPCs: PCDict;
@@ -88,7 +88,7 @@ declare global {
   }
 }
 
-window.watchparty = {
+window.churu = {
   ourStream: undefined,
   videoRefs: {},
   videoPCs: {},
@@ -188,7 +188,7 @@ export class App extends React.Component<AppProps, AppState> {
     tsMap: {},
     nameMap: {},
     pictureMap: {},
-    myName: window.localStorage.getItem("watchparty-username") ?? "",
+    myName: window.localStorage.getItem("churu-username") ?? "",
     myPicture: "",
     loading: true,
     scrollTimestamp: 0,
@@ -229,14 +229,12 @@ export class App extends React.Component<AppProps, AppState> {
     showChatColumn: isMobile()
       ? true
       : Boolean(
-          Number(
-            window.localStorage.getItem("watchparty-showchatcolumn") ?? "1",
-          ),
+          Number(window.localStorage.getItem("churu-showchatcolumn") ?? "1"),
         ),
     showPeopleColumn: false,
     // Boolean(
     //       Number(
-    //         window.localStorage.getItem('watchparty-showpeoplecolumn') ?? '0',
+    //         window.localStorage.getItem('churu-showpeoplecolumn') ?? '0',
     //       ),
     //     ),
     owner: undefined,
@@ -505,15 +503,15 @@ export class App extends React.Component<AppProps, AppState> {
           const time = data.videoTS;
           if (isMagnet(src)) {
             // WebTorrent
-            if (!window.watchparty.webtorrent) {
+            if (!window.churu.webtorrent) {
               const WebTorrent = //@ts-expect-error
                 (await import("webtorrent/dist/webtorrent.min.js")).default;
-              window.watchparty.webtorrent = new WebTorrent();
+              window.churu.webtorrent = new WebTorrent();
               const reg = await navigator.serviceWorker?.register("/sw.min.js");
               const worker = reg.active || reg.waiting || reg.installing;
               const checkState = (worker: ServiceWorker | null) => {
                 if (worker?.state === "activated") {
-                  return window.watchparty.webtorrent?.createServer({
+                  return window.churu.webtorrent?.createServer({
                     controller: reg,
                   });
                 }
@@ -555,9 +553,9 @@ export class App extends React.Component<AppProps, AppState> {
                 }
                 resolve(undefined);
               };
-              let target = await window.watchparty.webtorrent?.get(src);
+              let target = await window.churu.webtorrent?.get(src);
               if (!target) {
-                target = window.watchparty.webtorrent?.add(src, {
+                target = window.churu.webtorrent?.add(src, {
                   announce: [
                     "wss://tracker.btorrent.xyz",
                     "wss://tracker.openwebtorrent.com",
@@ -579,10 +577,10 @@ export class App extends React.Component<AppProps, AppState> {
               }
             });
           } else if (isDash(src)) {
-            if (!window.watchparty.dash) {
+            if (!window.churu.dash) {
               const Dash = await import("dashjs");
-              window.watchparty.dash = Dash.MediaPlayer().create();
-              window.watchparty.dash.on("streamInitialized", (_e: any) => {
+              window.churu.dash = Dash.MediaPlayer().create();
+              window.churu.dash.on("streamInitialized", (_e: any) => {
                 // for a live stream:
                 // html.currenttime is time since stream start
                 // html.duration is infinite
@@ -594,21 +592,21 @@ export class App extends React.Component<AppProps, AppState> {
                 });
               });
             }
-            window.watchparty.dash.initialize(leftVideo, src);
+            window.churu.dash.initialize(leftVideo, src);
           } else if (isHls(src) && window.MediaSource) {
             // Prefer using hls.js if MediaSource Extensions are supported
             // otherwise fallback to native HLS support using video tag (i.e. iPhones)
-            if (!window.watchparty.hls) {
+            if (!window.churu.hls) {
               const Hls = (await import("hls.js")).default;
-              window.watchparty.hls = new Hls();
-              window.watchparty.hls.on(Hls.Events.LEVEL_LOADED, (_, data) => {
+              window.churu.hls = new Hls();
+              window.churu.hls.on(Hls.Events.LEVEL_LOADED, (_, data) => {
                 const isLiveStream = data.details.live;
                 this.setState({ isLiveStream });
                 console.log("HLS level loaded: isLive %s", isLiveStream);
               });
             }
-            window.watchparty.hls.loadSource(src);
-            window.watchparty.hls.attachMedia(leftVideo);
+            window.churu.hls.loadSource(src);
+            window.churu.hls.attachMedia(leftVideo);
           }
           // else if (isMpegTs(src)) {
           //   const mpegts = (await import('mpegts.js')).default;
@@ -677,7 +675,7 @@ export class App extends React.Component<AppProps, AppState> {
           }
           if (isMagnet(currentMedia)) {
             this.progressUpdater = window.setInterval(async () => {
-              const client = window.watchparty.webtorrent;
+              const client = window.churu.webtorrent;
               if (client) {
                 this.setState({
                   downloaded: client.torrents[0]?.downloaded,
@@ -897,12 +895,9 @@ export class App extends React.Component<AppProps, AppState> {
         // Don't update the username if the user wants to customize their own
         // Set a flag in localstorage so we only update this once, if the user changes name manually later we won't overwrite
         // Clear the flag on logout
-        if (!window.localStorage.getItem("watchparty-loginname")) {
+        if (!window.localStorage.getItem("churu-loginname")) {
           this.updateName(firstName);
-          window.localStorage.setItem(
-            "watchparty-loginname",
-            Date.now().toString(),
-          );
+          window.localStorage.setItem("churu-loginname", Date.now().toString());
         }
       }
       const userImage = await getUserImage(user);
@@ -1884,7 +1879,7 @@ export class App extends React.Component<AppProps, AppState> {
   updateName = (name: string) => {
     this.setState({ myName: name });
     this.socket.emit("CMD:name", name);
-    window.localStorage.setItem("watchparty-username", name);
+    window.localStorage.setItem("churu-username", name);
   };
 
   updatePicture = (url: string) => {
@@ -2567,7 +2562,7 @@ export class App extends React.Component<AppProps, AppState> {
                           showChatColumn: newVal,
                         });
                         window.localStorage.setItem(
-                          "watchparty-showchatcolumn",
+                          "churu-showchatcolumn",
                           Number(newVal).toString(),
                         );
                       }}

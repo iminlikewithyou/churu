@@ -37,7 +37,7 @@ if (window.location.hash && window.location.pathname === "/") {
   window.location.href = "/watch/" + hashRoomId;
 }
 
-class WatchParty extends React.Component {
+class Churu extends React.Component {
   public state = DEFAULT_STATE;
   async componentDidMount() {
     if (firebaseConfig) {
@@ -139,4 +139,4 @@ class WatchParty extends React.Component {
 }
 const container = document.getElementById("root");
 const root = createRoot(container!);
-root.render(<WatchParty />);
+root.render(<Churu />);

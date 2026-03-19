@@ -63,7 +63,7 @@ apt update
 apt install -y git
 
 # Clone application code
-git clone https://github.com/howardchung/watchparty
+git clone https://github.com/iminlikewithyou/churu
 
 # Install docker
 curl -sSL https://get.docker.com/ | sh
@@ -78,7 +78,7 @@ sudo apt-get install -y nodejs
 
 # Set up certbot or Cloudflare HTTPS
 
-# Build watchparty
+# Build churu
 npm run build
 
 # Set .env config

@@ -150,7 +150,7 @@ app.get("/downloadSubtitles", async (req, res) => {
       url: "https://api.opensubtitles.com/api/v1/download",
       method: "POST",
       headers: {
-        "User-Agent": "watchparty v1",
+        "User-Agent": "churu v1",
         "Api-Key": config.OPENSUBTITLES_KEY,
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -226,7 +226,7 @@ app.get("/searchSubtitles", async (req, res) => {
     // Up to 10 downloads per IP per day, but proxyable and doesn't require key
     const response = await axios.get(subUrl, {
       headers: {
-        "User-Agent": "watchparty v1",
+        "User-Agent": "churu v1",
         "Api-Key": config.OPENSUBTITLES_KEY,
       },
     });

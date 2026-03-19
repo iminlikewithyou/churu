@@ -1903,11 +1903,11 @@ export class App extends React.Component<AppProps, AppState> {
     }
     if (input.startsWith("screenshare://")) {
       const sharer = this.state.participants.find((user) => user.isScreenShare);
-      return this.state.nameMap[sharer?.id ?? ""] + "'s screen";
+      return (this.state.nameMap[sharer?.id ?? ""] ?? "Someone") + "'s screen";
     }
     if (input.startsWith("fileshare://")) {
       const sharer = this.state.participants.find((user) => user.isScreenShare);
-      return this.state.nameMap[sharer?.id ?? ""] + "'s file";
+      return (this.state.nameMap[sharer?.id ?? ""] ?? "Someone") + "'s file";
     }
     if (input.startsWith("vbrowser://")) {
       return "Virtual Browser" + (this.state.isVBrowserLarge ? "+" : "");

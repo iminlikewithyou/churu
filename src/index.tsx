@@ -20,7 +20,7 @@ import { DEFAULT_STATE, MetadataContext } from "./MetadataContext";
 import { createTheme, MantineProvider } from "@mantine/core";
 
 const theme = createTheme({
-  /** Your theme override here */
+  fontFamily: "Lexend, sans-serif",
   white: softWhite,
 });
 

@@ -4,15 +4,18 @@ import { resolveShard } from "./resolveShard.ts";
 let adjectives = fs
   .readFileSync(process.cwd() + "/words/adjectives.txt")
   .toString()
-  .split("\n");
+  .split(/\r?\n/)
+  .filter(Boolean);
 const nouns = fs
   .readFileSync(process.cwd() + "/words/nouns.txt")
   .toString()
-  .split("\n");
+  .split(/\r?\n/)
+  .filter(Boolean);
 const verbs = fs
   .readFileSync(process.cwd() + "/words/verbs.txt")
   .toString()
-  .split("\n");
+  .split(/\r?\n/)
+  .filter(Boolean);
 const randomElement = (array: string[]) =>
   array[Math.floor(Math.random() * array.length)];
 

@@ -237,10 +237,11 @@ export const TopBar = (props: {
           flexWrap: "wrap",
           padding: "4px 8px",
           rowGap: "8px",
+          gap: "4px",
         }}
       >
         <a href="/" style={{ display: "flex" }}>
-          <img style={{ width: "56px", height: "56px" }} src="/logo192.png" />
+          <img style={{ width: "40px", height: "40px" }} src="/logo256.png" />
         </a>
         {props.roomTitle || props.roomDescription ? (
           <div
@@ -277,11 +278,7 @@ export const TopBar = (props: {
                 textDecoration: "none",
               }}
             >
-              <img
-                src="/wordmark28.png"
-                alt="churu"
-                style={{ height: "28px" }}
-              />
+              <img src="/wordmark.png" alt="churu" style={{ height: "28px" }} />
             </a>
           </React.Fragment>
         )}

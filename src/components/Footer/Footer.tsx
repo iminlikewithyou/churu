@@ -11,10 +11,10 @@ export const Footer = () => (
       color: softWhite,
     }}
   >
-    <Link to="/terms">Terms</Link>
+    {/* <Link to="/terms">Terms</Link>
     {" · "}
     <Link to="/privacy">Privacy</Link>
     {" · "}
-    <Link to="/faq">FAQ</Link>
+    <Link to="/faq">FAQ</Link> */}
   </div>
 );

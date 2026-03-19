@@ -32,7 +32,7 @@ export const Home = () => {
           }
           image={"/screenshot4.png"}
         />
-        <div className={styles.featureSection}>
+        {/* <div className={styles.featureSection}>
           <Feature
             Icon={IconBrowser}
             title={`VBrowser`}
@@ -95,7 +95,7 @@ export const Home = () => {
             "Bring video and chat front-and-center for minimal distractions."
           }
           image={"/screenshot14.png"}
-        />
+        /> */}
         <div
           style={{
             padding: "30px",
@@ -107,18 +107,17 @@ export const Home = () => {
           <div className={styles.heroText}>Get started!</div>
           <div className={styles.featureSection}>
             <Stepper active={-1}>
-              <Stepper.Step label="Make a room" />
-              <Stepper.Step label="Share link with friends" />
-              <Stepper.Step label="Pick something to watch" />
-              <Stepper.Step label="Success!" />
+              <Stepper.Step label="Create a room" />
+              <Stepper.Step label="Share the link with friends" />
+              <Stepper.Step label="Start watching!" />
             </Stepper>
           </div>
-          {/* <div style={{ width: '160px' }}>
+          {/* <div style={{ width: "160px" }}>
             <NewRoomButton />
           </div> */}
         </div>
       </div>
-      <DiscordBot />
+      {/* <DiscordBot /> */}
     </div>
   );
 };

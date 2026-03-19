@@ -75,5 +75,5 @@
 }
 
 .shareButton {
-  min-width: 150px;
+  flex-shrink: 0;
 }

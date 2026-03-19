@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   color: white;
-  /* background-image: linear-gradient(to bottom, #222222, #008cdd); */
+  /* background-image: linear-gradient(to bottom, #1D1E1F, #008cdd); */
 }
 
 .hero {
   color: white;
   width: 100%;
-  background-image: linear-gradient(to bottom, #222222, #006199);
+  background-image: linear-gradient(to bottom, #1d1e1f, #006199);
   border-bottom-left-radius: 0%;
   border-bottom-right-radius: 50%;
   display: flex;
@@ -16,7 +16,7 @@
 }
 
 .hero.green {
-  background-image: linear-gradient(to bottom, #222222, rgb(21, 114, 43));
+  background-image: linear-gradient(to bottom, #1d1e1f, rgb(21, 114, 43));
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 0%;
 }

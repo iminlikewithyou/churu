@@ -2142,6 +2142,11 @@ export class App extends React.Component<AppProps, AppState> {
             roomTitle={this.state.roomTitle}
             roomDescription={this.state.roomDescription}
             roomTitleColor={this.state.roomTitleColor}
+            participants={this.state.participants}
+            nameMap={this.state.nameMap}
+            pictureMap={this.state.pictureMap}
+            localId={clientId}
+            socket={this.socket}
           />
         )}
         {
@@ -2468,7 +2473,10 @@ export class App extends React.Component<AppProps, AppState> {
                             <Alert
                               color="yellow"
                               title="You're not watching anything!"
-                              styles={{ title: { fontSize: 18, textAlign: "center" }, message: { textAlign: "center" } }}
+                              styles={{
+                                title: { fontSize: 18, textAlign: "center" },
+                                message: { textAlign: "center" },
+                              }}
                             >
                               Pick something to watch above.
                             </Alert>
@@ -2605,7 +2613,7 @@ export class App extends React.Component<AppProps, AppState> {
                 styles.rightColumn
               }`}
             >
-              <div style={{ display: "flex", width: "100%", gap: "4px" }}>
+              {/* <div style={{ display: "flex", width: "100%", gap: "4px" }}>
                 <TextInput
                   // description="Name"
                   style={{
@@ -2650,7 +2658,7 @@ export class App extends React.Component<AppProps, AppState> {
                 >
                   People
                 </Button>
-              </div>
+              </div> */}
               {this.state.state === "connected" && (
                 <div
                   style={{

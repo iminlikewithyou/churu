@@ -1,13 +1,21 @@
 import React, { useCallback, useContext } from "react";
-import { serverPath, getUserImage, softWhite } from "../../utils/utils";
+import {
+  serverPath,
+  getUserImage,
+  softWhite,
+  getDefaultPicture,
+  getColorForStringHex,
+} from "../../utils/utils";
 import { ActionIcon, Avatar, Button, Menu, Text } from "@mantine/core";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import { Socket } from "socket.io-client";
 import { LoginModal } from "../Modal/LoginModal";
 import { SubscribeButton } from "../SubscribeButton/SubscribeButton";
 import { ProfileModal } from "../Modal/ProfileModal";
 import Announce from "../Announce/Announce";
 import { InviteButton } from "../InviteButton/InviteButton";
+import { RoomControls } from "./RoomControls";
 import appStyles from "../App/App.module.css";
 import { MetadataContext } from "../../MetadataContext";
 import config from "../../config";
@@ -70,7 +78,9 @@ export const NewRoomButton = (props: {
   );
 };
 
-type SignInButtonProps = {};
+type SignInButtonProps = {
+  onNameChange?: (name: string) => void;
+};
 
 export class SignInButton extends React.Component<SignInButtonProps> {
   static contextType = MetadataContext;
@@ -81,6 +91,15 @@ export class SignInButton extends React.Component<SignInButtonProps> {
     if (this.context.user && !this.state.userImage) {
       this.setState({ userImage: await getUserImage(this.context.user) });
     }
+  }
+
+  getLocalImage() {
+    const name = window.localStorage.getItem("churu-username") || "";
+    const id = window.localStorage.getItem("churu-clientid") || "";
+    if (name || id) {
+      return getDefaultPicture(name, getColorForStringHex(id));
+    }
+    return null;
   }
 
   render() {
@@ -103,6 +122,7 @@ export class SignInButton extends React.Component<SignInButtonProps> {
             <ProfileModal
               userImage={this.state.userImage}
               close={() => this.setState({ isProfileOpen: false })}
+              onNameChange={this.props.onNameChange}
             />
           )}
         </div>
@@ -113,14 +133,23 @@ export class SignInButton extends React.Component<SignInButtonProps> {
         {this.state.isLoginOpen && (
           <LoginModal
             closeModal={() => this.setState({ isLoginOpen: false })}
+            onNameChange={this.props.onNameChange}
           />
         )}
-        <Button
-          leftSection={<IconLogin />}
-          onClick={() => this.setState({ isLoginOpen: true })}
+        <div
+          style={{
+            margin: "4px",
+            minWidth: "40px",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
         >
-          Sign in
-        </Button>
+          <Avatar
+            src={this.getLocalImage()}
+            onClick={() => this.setState({ isLoginOpen: true })}
+          />
+        </div>
       </React.Fragment>
     );
   }
@@ -206,7 +235,7 @@ export class ListRoomsButton extends React.Component<{}> {
                       }}
                       color="red"
                     >
-                      <IconTrash size={16} />
+                      <IconTrash size={22} />
                     </ActionIcon>
                   </div>
                 </div>
@@ -226,6 +255,11 @@ export const TopBar = (props: {
   roomTitle?: string;
   roomDescription?: string;
   roomTitleColor?: string;
+  participants?: User[];
+  nameMap?: StringDict;
+  pictureMap?: StringDict;
+  localId?: string;
+  socket?: Socket;
 }) => {
   const context = useContext(MetadataContext);
   const subscribeButton = <SubscribeButton />;
@@ -238,6 +272,7 @@ export const TopBar = (props: {
           padding: "4px 8px",
           rowGap: "8px",
           gap: "4px",
+          backgroundColor: "#171819",
         }}
       >
         <a href="/" style={{ display: "flex" }}>
@@ -292,41 +327,61 @@ export const TopBar = (props: {
             gap: "4px",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "4px",
-            }}
-          >
-            <ActionIcon
-              component="a"
-              color="gray"
-              size="lg"
-              href="https://discord.gg/3rYj5HV"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Discord"
+          {!props.socket && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px",
+              }}
             >
-              <IconBrandDiscord />
-            </ActionIcon>
-            <ActionIcon
-              component="a"
-              color="gray"
-              size="lg"
-              href="https://github.com/howardchung/watchparty"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="GitHub"
-            >
-              <IconBrandGithub />
-            </ActionIcon>
-          </div>
-          {!props.hideNewRoom && <NewRoomButton openNewTab />}
+              <ActionIcon
+                component="a"
+                color="gray"
+                size="lg"
+                href="https://discord.gg/3rYj5HV"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Discord"
+              >
+                <IconBrandDiscord />
+              </ActionIcon>
+              <ActionIcon
+                component="a"
+                color="gray"
+                size="lg"
+                href="https://github.com/howardchung/watchparty"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="GitHub"
+              >
+                <IconBrandGithub />
+              </ActionIcon>
+            </div>
+          )}
+          {/* NewRoomButton only shown outside of rooms */}
+          {!props.socket && !props.hideNewRoom && <NewRoomButton openNewTab />}
           {!props.hideMyRooms && context.user && <ListRoomsButton />}
           {subscribeButton}
-          {!props.hideSignin && <SignInButton />}
+          {props.socket && props.participants && (
+            <RoomControls
+              socket={props.socket}
+              participants={props.participants}
+              nameMap={props.nameMap || {}}
+              pictureMap={props.pictureMap || {}}
+              localId={props.localId || ""}
+            />
+          )}
+          {!props.hideSignin && (
+            <SignInButton
+              onNameChange={
+                props.socket
+                  ? (name) => props.socket!.emit("CMD:name", name)
+                  : undefined
+              }
+            />
+          )}
         </div>
       </div>
     </React.Fragment>

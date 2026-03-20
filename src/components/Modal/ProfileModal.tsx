@@ -1,5 +1,13 @@
 import React from "react";
-import { Modal, Button, Avatar, HoverCard, Text, TextInput, ActionIcon } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  Avatar,
+  HoverCard,
+  Text,
+  TextInput,
+  ActionIcon,
+} from "@mantine/core";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { serverPath } from "../../utils/utils";

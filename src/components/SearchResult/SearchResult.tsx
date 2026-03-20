@@ -29,7 +29,7 @@ export const YouTubeSearchResult = (
               props.playlistAdd(result.url);
             }}
           >
-            Add To Playlist
+            Add to Queue
           </Button>
         </div>
       </div>

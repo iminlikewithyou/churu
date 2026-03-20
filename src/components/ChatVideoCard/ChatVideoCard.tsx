@@ -106,7 +106,7 @@ const ChatVideoCard: React.FC<{
         {onPlaylistAdd && (
           <div className={classes.Controls}>
             <ActionIcon
-              title="Add to Playlist"
+              title="Add to Queue"
               onClick={(e) => {
                 e.stopPropagation();
                 e.nativeEvent.stopImmediatePropagation();

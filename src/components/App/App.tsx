@@ -2373,7 +2373,7 @@ export class App extends React.Component<AppProps, AppState> {
                             }
                             className={styles.shareButton}
                           >
-                            Playlist
+                            Queue
                           </Button>
                         </Menu.Target>
                         <Menu.Dropdown
@@ -2386,7 +2386,7 @@ export class App extends React.Component<AppProps, AppState> {
                         >
                           {playlist.length === 0 && (
                             <Menu.Item disabled>
-                              There are no items in the playlist.
+                              There are no items in the queue.
                             </Menu.Item>
                           )}
                           {playlist.map(

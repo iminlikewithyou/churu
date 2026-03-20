@@ -79,7 +79,7 @@ export const Home = () => {
           />
           <Feature
             Icon={IconList}
-            title="Playlists"
+            title="Queue"
             text="Set up a whole list of videos to play next, and rearrange to your heart's content."
           />
           <Feature

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Avatar, HoverCard, Text } from "@mantine/core";
+import { Modal, Button, Avatar, HoverCard, Text, TextInput, ActionIcon } from "@mantine/core";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { serverPath } from "../../utils/utils";
@@ -11,14 +11,18 @@ import {
   IconBrandGravatar,
   IconCircleCheck,
   IconCircleCheckFilled,
+  IconDice,
   IconKeyFilled,
   IconLogout,
   IconTrashFilled,
+  IconUser,
 } from "@tabler/icons-react";
+import { generateName } from "../../utils/generateName";
 
 export class ProfileModal extends React.Component<{
   close: () => void;
   userImage: string | null;
+  onNameChange?: (name: string) => void;
 }> {
   static contextType = MetadataContext;
   declare context: React.ContextType<typeof MetadataContext>;
@@ -27,6 +31,7 @@ export class ProfileModal extends React.Component<{
     verifyDisabled: false,
     deleteConfirmOpen: false,
     linkedDiscord: null as null | LinkAccount,
+    username: window.localStorage.getItem("churu-username") ?? "",
   };
 
   async componentDidMount() {
@@ -168,6 +173,35 @@ export class ProfileModal extends React.Component<{
             />
           )}
         </div>
+        <TextInput
+          label="Username"
+          placeholder="Enter a display name"
+          leftSection={<IconUser size={16} />}
+          rightSection={
+            <ActionIcon
+              variant="subtle"
+              onClick={async () => {
+                const name = await generateName();
+                this.setState({ username: name });
+                window.localStorage.setItem("churu-username", name);
+                this.props.onNameChange?.(name);
+              }}
+              title="Randomize"
+            >
+              <IconDice size={16} />
+            </ActionIcon>
+          }
+          value={this.state.username}
+          onChange={(e) => {
+            const name = e.target.value;
+            this.setState({ username: name });
+            window.localStorage.setItem("churu-username", name);
+            this.props.onNameChange?.(name);
+          }}
+          onFocus={(e) => e.target.select()}
+          my="md"
+          mx="10px"
+        />
         <div
           style={{
             display: "flex",

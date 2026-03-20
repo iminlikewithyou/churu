@@ -6,17 +6,22 @@ import {
   TextInput,
   PasswordInput,
   Divider,
+  ActionIcon,
 } from "@mantine/core";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import {
   IconBrandFacebookFilled,
   IconBrandGoogleFilled,
+  IconDice,
+  IconUser,
 } from "@tabler/icons-react";
 import config from "../../config";
+import { generateName } from "../../utils/generateName";
 
 export class LoginModal extends React.Component<{
   closeModal: () => void;
+  onNameChange?: (name: string) => void;
 }> {
   public state = {
     email: "",
@@ -24,6 +29,7 @@ export class LoginModal extends React.Component<{
     showCreate: false,
     showReset: false,
     error: "",
+    username: window.localStorage.getItem("churu-username") ?? "",
   };
 
   emailSignIn = async (email: string, password: string) => {
@@ -69,6 +75,35 @@ export class LoginModal extends React.Component<{
         )}
         <Modal opened onClose={closeModal} title="Login" size="auto" centered>
           <div>
+            <TextInput
+              label="Guest Name"
+              placeholder="Enter a display name"
+              leftSection={<IconUser size={16} />}
+              rightSection={
+                <ActionIcon
+                  variant="subtle"
+                  onClick={async () => {
+                    const name = await generateName();
+                    this.setState({ username: name });
+                    window.localStorage.setItem("churu-username", name);
+                    this.props.onNameChange?.(name);
+                  }}
+                  title="Randomize"
+                >
+                  <IconDice size={16} />
+                </ActionIcon>
+              }
+              value={this.state.username}
+              onChange={(e) => {
+                const name = e.target.value;
+                this.setState({ username: name });
+                window.localStorage.setItem("churu-username", name);
+                this.props.onNameChange?.(name);
+              }}
+              onFocus={(e) => e.target.select()}
+              mb="md"
+            />
+            <Divider label="Quick sign in" labelPosition="center" my="lg" />
             <div style={{ display: "flex", gap: "4px" }}>
               {enabledOptions.includes("facebook") && (
                 <Button

@@ -2468,6 +2468,7 @@ export class App extends React.Component<AppProps, AppState> {
                             <Alert
                               color="yellow"
                               title="You're not watching anything!"
+                              styles={{ title: { fontSize: 18, textAlign: "center" }, message: { textAlign: "center" } }}
                             >
                               Pick something to watch above.
                             </Alert>

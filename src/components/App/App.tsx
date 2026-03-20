@@ -2410,6 +2410,17 @@ export class App extends React.Component<AppProps, AppState> {
                           )}
                         </Menu.Dropdown>
                       </Menu>
+                      <ActionIcon
+                        color="grey"
+                        variant="filled"
+                        size="input-sm"
+                        title="Settings"
+                        onClick={() => {
+                          this.setSettingsModalOpen(true);
+                        }}
+                      >
+                        <IconSettings />
+                      </ActionIcon>
                     </div>
                   </React.Fragment>
                 )}
@@ -2637,17 +2648,6 @@ export class App extends React.Component<AppProps, AppState> {
                   }
                 >
                   People
-                </Button>
-                <Button
-                  color="grey"
-                  title="Settings"
-                  fullWidth
-                  onClick={() => {
-                    this.setSettingsModalOpen(true);
-                  }}
-                  leftSection={<IconSettings />}
-                >
-                  Settings
                 </Button>
               </div>
               {this.state.state === "connected" && (
